@@ -1,5 +1,12 @@
 package com.HackerEarth.BackendRecipe;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +37,20 @@ public class BackendRecipeApplication implements CommandLineRunner {
 		SpringApplication.run(BackendRecipeApplication.class, args);
 	}
 
+	
+//	Convert a Image into Byte and Store it into the Byte Array
+	
+	public byte[] convertImageByte(URL url) throws IOException{
+		ByteArrayOutputStream baos=new ByteArrayOutputStream();
+		InputStream is=new BufferedInputStream(url.openStream());
+		byte[] byteChunk = new byte[4096];
+		int n;
+		while((n=is.read(byteChunk))>0) {
+			baos.write(byteChunk, 0, n);
+		}
+		return baos.toByteArray();
+	}
+	
 	@Override
 	public void run(String... args) throws Exception {
 		String url="https://s3-ap-southeast-1.amazonaws.com/he-public-data/reciped9d7b8c.json";
@@ -42,14 +63,10 @@ public class BackendRecipeApplication implements CommandLineRunner {
 			recipeTable.setCategory(r.getCategory());
 			recipeTable.setDescription(r.getDescription());
 			recipeTable.setLabel(r.getLabel());
-			recipeTable.setImage(r.getImage());
+			URL url1 = new URL(r.getImage());
+			recipeTable.setImages(this.convertImageByte(url1));
 			recipeTable.setPrice(r.getPrice());
 			
-//			Convert to byte Array and stores in the Database as a array
-			
-//			String Url=r.getImage();
-//			byte[] img=Url.getBytes();
-//			recipeTable.setImages(img);
 			recipeRepository.save(recipeTable);
 		}
 	}

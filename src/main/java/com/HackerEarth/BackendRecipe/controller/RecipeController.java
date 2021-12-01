@@ -104,7 +104,8 @@ public class RecipeController {
 //		
 //	}
 	
-	
+/*
+	Get Image From URL 
 	
 	@RequestMapping(value = "/{recipeId}/show",method = RequestMethod.GET)
 	public HttpEntity<byte[]> getImage(@PathVariable String recipeId) throws IOException{
@@ -127,5 +128,16 @@ public class RecipeController {
 
 	    return new HttpEntity<byte[]>(response, headers);
 	}
+*/
 
+//	Fetch Image from Database
+	@RequestMapping(value = "/{recipeId}/show",method = RequestMethod.GET)
+	public void getImageFromDatabase(@PathVariable String recipeId,HttpServletResponse response) throws IOException {
+		byte[] buffer=recipeService.getImageFromDatabaseImpl(Integer.parseInt(recipeId));
+		response.setContentType("image/jpeg");
+		response.getOutputStream().write(buffer);
+		response.getOutputStream().flush();
+		response.getOutputStream().close();
+	}
+	
 }
