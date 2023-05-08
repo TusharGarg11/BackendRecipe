@@ -15,3 +15,8 @@ SpringBoot, Hibernate, SQL/No*SQL DB
 
 ## Resources
 Use the below API to fetch Recipe details: https://s3-ap-southeast-1.amazonaws.com/he-public-data/reciped9d7b8c.json
+
+## Question Details
+- Download the source code from this repository
+- Extract the zip file.
+- Open the Omnicell Tech Challenge for Java Developers.html file
